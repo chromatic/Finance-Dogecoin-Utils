@@ -39,7 +39,7 @@ sub main {
     return 0;
 }
 
-sub conf_dir {
+sub confdir {
     my ($conf_dir, @args) = @_;
     say "Configuration dir is $conf_dir";
 
