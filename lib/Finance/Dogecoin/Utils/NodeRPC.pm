@@ -30,6 +30,7 @@ class Finance::Dogecoin::Utils::NodeRPC {
     }
 
     method call_method( $method, @params ) {
+        warn "Calling $method with [@params]\n";
         my $res = $ua->post(
             Mojo::URL->new('http://localhost:22555')->userinfo( $auth ),
             json => { jsonrpc => '1.0', id => 'Perl RPCAuth', method => $method, params => \@params }
@@ -55,7 +56,7 @@ Class representing a Dogecoin Core node on which to perform RPC.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2022 chromatic
+Copyright (c) 2022-2023 chromatic
 
 =head1 AUTHOR
 

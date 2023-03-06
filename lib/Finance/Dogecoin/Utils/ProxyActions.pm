@@ -47,6 +47,12 @@ class Finance::Dogecoin::Utils::ProxyActions {
         return 1;
     }
 
+    method decodetransaction( $tx_hash ) {
+        my $tx = $rpc->call_method( getrawtransaction => $tx_hash );
+        my $tx_json = $rpc->call_method( decoderawtransaction => $tx->{result} );
+        say $json->encode( $tx_json->{result} );
+    }
+
     method DESTROY {
         return unless $address_file;
         $address_file->spew_utf8( $json->encode( $addresses ) );
@@ -62,7 +68,7 @@ Utilities to proxy RPC to a Dogecoin Core node.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2022 chromatic
+Copyright (c) 2022-2023 chromatic
 
 =head1 AUTHOR
 

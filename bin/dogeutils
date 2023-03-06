@@ -97,12 +97,19 @@ This suite supports a few commands right now:
 
 =item * C<setlabel>
 
-Given a Dogecoin address and a label, associates the label with this address. Yes, this matches the Bitcoin RPC method. That's no accident.
+Given a Dogecoin address and a label, associates the label with this address.
+Yes, this matches the Bitcoin RPC method. That's no accident.
 
 =item * C<getreceivedbylabel>
 
 Given a label corresponding to a Dogecoin address (already set with
 C<setlabel>), returns the JSON from the C<getreceivedbyaddress> RPC call.
+
+=item * C<decodetransaction>
+
+Given a transaction hash, decodes the transaction. Note that this transaction
+must be in your wallet I<or> you must have C<txindex> enabled on your Core
+node.
 
 =back
 
