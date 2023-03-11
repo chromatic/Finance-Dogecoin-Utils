@@ -36,3 +36,6 @@ inc/
 
 # dzil
 Finance-Dogecoin-Utils-*/
+
+# testing
+.prove
