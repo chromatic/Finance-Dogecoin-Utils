@@ -43,7 +43,7 @@ class Finance::Dogecoin::Utils::NodeRPC {
         } elsif ($res->code == 403) {
             warn "Auth to Dogecoin RPC failed\n";
         } else {
-            warn "Something went wrong with Dogecoin RPC: " . $res->code . "\n";
+            return $res->json;
         }
 
         return {};

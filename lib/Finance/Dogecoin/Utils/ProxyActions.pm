@@ -48,9 +48,15 @@ class Finance::Dogecoin::Utils::ProxyActions {
     }
 
     method decodetransaction( $tx_hash ) {
-        my $tx = $rpc->call_method( getrawtransaction => $tx_hash );
-        my $tx_json = $rpc->call_method( decoderawtransaction => $tx->{result} );
-        say $json->encode( $tx_json->{result} );
+        my $tx = $rpc->call_method( getrawtransaction => "$tx_hash" );
+        my $result = $tx->{result};
+        if ($result) {
+            $tx = $rpc->call_method( decoderawtransaction => $result );
+            $result = $tx->{result};
+            return $result if $result;
+        }
+
+        die $tx->{error};
     }
 
     method DESTROY {

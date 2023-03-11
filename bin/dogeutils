@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use feature 'say';
 
+use JSON;
 use Path::Tiny;
 use File::HomeDir;
 
@@ -30,7 +31,15 @@ sub main {
     my $actions = Finance::Dogecoin::Utils::ProxyActions->new( rpc => $rpc, address_file => $address_file );
 
     if (my $action_method = $actions->can( $action )) {
-        return !! $actions->$action_method( @args );
+        eval {
+            my $result = $actions->$action_method( @args );
+            say JSON->new->pretty->encode( $result );
+            return 0;
+        };
+        if ($@) {
+            say JSON->new->pretty->encode( $@ );
+            return 1;
+        }
     } else {
         warn "Don't recognize action '$action'\n";
         return 1;
