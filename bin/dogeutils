@@ -5,8 +5,8 @@ use warnings;
 use feature 'say';
 
 use Path::Tiny;
-use File::HomeDir;
 
+use Finance::Dogecoin::Utils;
 use Finance::Dogecoin::Utils::NodeRPC;
 use Finance::Dogecoin::Utils::ProxyActions;
 
@@ -15,16 +15,10 @@ exit main( @ARGV );
 sub main {
     my ($action, @args)  = @_;
 
-    my $conf_dir     = path(File::HomeDir->my_data)->child('dogeutils')->mkdir;
-
-    if ($action =~ /^--(.+)$/) {
-        if (my $func = __PACKAGE__->can( $1 )) {
-            return $func->( $conf_dir, @args );
-        }
-    }
+    my $conf_dir     = get_conf_dir();
 
     my $address_file = $conf_dir->child( 'addressLabels.json' );
-    my $auth_file    = $conf_dir->child( 'auth.json' );
+    my $auth_file    = get_auth_file();
 
     my $rpc     = Finance::Dogecoin::Utils::NodeRPC->new( user => $ENV{DOGEUTILS_USER}, auth_file => $auth_file );
     my $actions = Finance::Dogecoin::Utils::ProxyActions->new( rpc => $rpc, address_file => $address_file );
@@ -35,13 +29,6 @@ sub main {
         warn "Don't recognize action '$action'\n";
         return 1;
     }
-
-    return 0;
-}
-
-sub conf_dir {
-    my ($conf_dir, @args) = @_;
-    say "Configuration dir is $conf_dir";
 
     return 0;
 }
