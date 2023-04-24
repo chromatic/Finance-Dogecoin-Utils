@@ -31,7 +31,7 @@ See L<dogeutils>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2022 chromatic
+Copyright (c) 2022-2023 chromatic
 
 =head1 AUTHOR
 

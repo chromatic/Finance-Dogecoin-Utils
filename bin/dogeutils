@@ -21,7 +21,11 @@ sub main {
     my $auth_file    = get_auth_file();
 
     my $rpc     = Finance::Dogecoin::Utils::NodeRPC->new( user => $ENV{DOGEUTILS_USER}, auth_file => $auth_file );
-    my $actions = Finance::Dogecoin::Utils::ProxyActions->new( rpc => $rpc, address_file => $address_file );
+    my $actions = Finance::Dogecoin::Utils::ProxyActions->new(
+        rpc          => $rpc,
+        address_file => $address_file,
+        conf_dir     => get_dogecoin_conf_dir(),
+    );
 
     if (my $action_method = $actions->can( $action )) {
         return !! $actions->$action_method( @args );
@@ -90,6 +94,13 @@ Given a Dogecoin address and a label, associates the label with this address. Ye
 
 Given a label corresponding to a Dogecoin address (already set with
 C<setlabel>), returns the JSON from the C<getreceivedbyaddress> RPC call.
+
+=item * C<dumpaddresses>
+
+Exports a wallet to your backup directory, extracts all public addresses from
+it, and writes them to standard output. This deletes the wallet export, but be
+cautious because this is a plain-text export of your wallet. This feature works
+best with Dogecoin Core 1.14.6 and later.
 
 =back
 
